@@ -1,0 +1,315 @@
+<!-- this page is licensed under the MIT license
+     see: <https://opensource.org/license/MIT/> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link rel="icon" href="assets/logo.png" />
+    <title>0x5DA</title>
+
+    <style>
+    :root {
+        --lbg: #F8F0E3;
+        --lfg: #272d35;
+        --la: #ead1aa;
+
+        --dbg: #1c1d1d;
+        --dfg: #c5c8c6;
+        --da: #181919;
+
+        --bg: var(--dbg);
+        --fg: var(--dfg);
+        --na: var(--la);
+
+        --pgw: 40vw;
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --bg: var(--lbg);
+            --fg: var(--lfg);
+            --na: var(--da);
+        }
+    }
+
+    * {
+        font-family: "Overpass Mono";
+        color: var(--fg);
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+
+        background-color: var(--bg);
+    }
+
+    p {
+        white-space: pre-line;
+        text-align: justify;
+        width: var(--pgw);
+    }
+
+    .text-grad, .text-grad-underline {
+        background: linear-gradient(45deg, #985d2a, #3e2611);
+
+        background-clip: text;
+        text-fill-color: transparent;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .text-grad-underline {
+        transition: color ease-in-out .7s;
+        color: #985d2a;
+    }
+
+    .text-grad-underline:hover {
+        color: #3e2611;
+    }
+    
+
+    h1 {
+        margin-top: 40px;
+        font-size: 50px;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #logo {
+        height: 1em;
+        border-radius: 10%;
+        /* HACK: offsetting the image to align horizontally with the heading. not responsive. */
+        margin-bottom: 10px;
+    }
+
+    #fade {
+        position: fixed;
+        bottom: 0;
+        width: calc(var(--pgw) + 10vw);
+        height: 15vh;
+        -webkit-mask-image: linear-gradient(transparent, rgba(0, 0, 0, 1));
+        -webkit-backdrop-filter: blur(50px);
+        mask-image: linear-gradient(transparent, rgba(0, 0, 0, 1));
+        backdrop-filter: blur(50px);
+    }
+
+    footer {
+        position: relative;
+        bottom: 0;
+        width: calc(100vw - 40px);
+        padding-top: 8vh;
+        padding-bottom: 5px;
+    }
+
+    #theme {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+
+        position: absolute;
+        top: 2vw;
+        right: 2vw;
+
+        padding: 10px;
+    }
+
+    .theme-intf {
+        width: 5em;
+        height: 1.5em;
+        border: none;
+        border-radius: 10px;
+
+        background-color: transparent;
+        font-size: 140%;
+        color: var(--fg); 
+
+        transition: text-shadow .5s ease-in-out;
+    }
+
+    .theme-intf:hover {
+        text-shadow: 0 0 5px var(--na);
+    }
+
+    #setup-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+    }
+
+    .setup {
+        transition: transform .2s ease-in-out;
+        max-width: calc(var(--pgw) * .9);
+        box-shadow: 0 0 3px var(--fg);
+        border-radius: 5px;
+    }
+
+    .setup:hover {
+        transform: scale(1.01);
+    }
+
+    @media not (min-width: 1000px) {
+        :root {
+            --pgw: 90vw;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #logo {
+            display: none;
+        }
+
+        footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #theme {
+            position: relative;
+            left: 0;
+            top: 0;
+
+            width: 100vw;
+            height: 1lh;
+            padding: 0;
+
+            border: none;
+            border-bottom: solid 2px var(--fg);
+            border-radius: 0;
+
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    </style>
+    <script>
+    function toggle_theme(light, dom) {
+        const prefix = light ? "l" : "d";
+        const inv_prefix = light ? "d" : "l";
+        document.documentElement.style.setProperty("--bg", `var(--${prefix}bg)`);
+        document.documentElement.style.setProperty("--fg", `var(--${prefix}fg)`);
+        document.documentElement.style.setProperty("--na", `var(--${inv_prefix}a)`);
+        dom.value = light ? "dark" : "light";
+    }
+
+    window.onload = _ => {
+        const toggle = document.getElementById("theme-toggle");
+        const saved = localStorage.getItem("light") === "true";
+        let light = false;
+
+        if (saved != undefined) {
+            toggle_theme(saved, toggle);
+            light = saved;
+        }
+
+        toggle.addEventListener("click", _ => {
+            light = !light;
+            toggle_theme(light, toggle);
+            localStorage.setItem("light", light);
+        });
+
+        const reset = document.getElementById("theme-reset");
+        reset.addEventListener("click", _ => {
+            light = false;
+            toggle_theme(light, toggle);
+            localStorage.removeItem("light");
+        });
+    };
+    </script>
+</head>
+
+<body>
+    <div id="theme">
+        <input type="button" id="theme-toggle" class="theme-intf" tooltip="toggle the site theme (light/dark)" />
+        <input type="button" id="theme-reset" value="reset" class="theme-intf" tooltip="reset the cached theme" />
+    </div>
+    <h1><img src="assets/logo.png" id="logo" alt="my avatar; a terminal with brown text and '0x5DA' written accross" />my page!</h1>
+
+    <p style="text-align: center">
+       hey!
+       my name's will, but i commonly alias to <span class="text-grad">0x5DA</span> online.
+    <p>
+
+    <h2>in brief..</h2>
+    <p>
+    i'm <span class="text-grad">14</span> & have been coding for about 2 1/2 years. i use rust primarily now (and will shill it under contractual obligation :P), but have worked in java & python in the past.
+    i use linux as my daily driver - currently using alpine - and spend most my time in the terminal (nvim). i don't game often, but when i do i enjoy Minecraft, Portal and Celeste.
+    i like FLOSS & decentralisation, and try support them when i can. my current project is a programming language - though it's been on hold for embarrassingly long now 😅
+    in the future, i'm interested in learning some C / x86_64 and graphics.
+    </p>
+
+    <h2>projects..</h2>
+
+    <p>
+    * tumbleweed rolls across the screen *
+
+    .. yeah, this one's embarrassingly sparse aha. for what it's worth, here's the list:
+    </p>
+    <!-- although ugly, wrapping the `<li>` content in `<p>` elements is important to preserve the site styling -->
+    <ul style="margin-top: 0">
+        <li><p><a class="text-grad-underline" href="https://github.com/Hex5DA/JChatV3">JChatV3</a>: this was the first project i ever made! it was my 'final assignment' i set for myself when i learnt a little java in early 2021. it's more than shitty & i'm sure the code isn't much better, but i was proud of it when i made it!</p></li>
+        <li><p><a class="text-grad-underline" href="https://github.com/Hex5DA/note-taking-app">Note Taking Site</a>: i can't remember the context for this one, but suffice it to say i wanted to make a full stack note taking app. this was the result - built with svelte & rust</p></li>
+        <li><p><a class="text-grad-underline" href="https://github.com/Hex5DA/lmc">LMC emulator</a>: this is so primitive i'm not sure if it really counts as an 'emulator'. a simple rust <i>Little Man Computer</i> program, with a hacky-beyond-belief 'assembler' to load programs for it</p></li>
+        <li><p><a class="text-grad-underline" href="https://github.com/Hex5DA/shadow-lang">shadow</a>: a homebrew programming language. this is my latest project, though it's been abandoned for a while. i have a lot of ideas for it, the current syntax & compiler implementation isn't up to date by any means</p></li>
+        <li><p><a class="text-grad-underline" href="https://github.com/Hex5DA/dotfiles">do dotfiles count?</a> you be the judge ¯\_(ツ)_/¯</p></li>
+        <!-- TODO: get a git repo set up for this -->
+        <li><p><a class="text-grad-underline" href="example.com">this site</a>: my little websi- what's that? this is too basic to qualify? well consider this: stfu i like it :)</p></li>
+    </ul>
+
+    <h2>contacts..</h2>
+
+    <p>if you're ever unlucky enough to have to talk to me, try this [embarassingly centralised] list:</p>
+    <ul style="margin-top: 0">
+        <li><p>discord -> @0x5da</p></li>
+        <li><p>fedi -> @0x5DA@fosstodon.org</p></li>
+    </ul>
+    <p>(told you. i'm working on getting some more FLOSS friendly options on here soon!)</p>
+
+    <h2>name..</h2>
+    <p>
+    adding this for clarification:
+    my nick was <span class="text-grad">^-^ Trevor</span> for a <i>long</i> time. at the start of the new year, i changed it to its current <span class="text-grad">0x5DA</span> / <span class="text-grad">Hex5DA</span>.
+    '<span class="text-grad">will</span>' is also fine (and much easier to say 😉).
+    some aliases i used to use: <i>^-^ Trevor</i>, <i>tr3v0r</i>, <i>trevor</i>, <i>onlyTr3v0r</i>
+    </p>
+
+    <h2>setup..</h2>
+    <p>
+    i recently got a <span class="text-grad">ThinkPad T1440p</span> from <a class="text-grad-underline" href="https://minifree.org">minifree</a>. i absolutely love this thing (i defintely reccomend it!)
+    i've installed <span class="text-grad">bedrock linux</span> with FDE and <i>alpine linux</i> as my primary strata.
+    i use <i>spectrwm</i> as a window manager, utilising it's default bar with a short script for system readouts.
+    i spend most of my time in the terminal (TE: <i>URXVT</i>, SH: <i>zsh</i>), especially in <span class="text-grad">neovim</span> which i use as my primary editor. i try and keep my plugins & experience light and minimal, and though it's not perfect and i'm happy enough with it for now. my configs are all my own, with a modified neovim plugin for using my Xresources theme in the editor.
+    you can find my dotfiles <a class="text-grad-underline" href="https://github.com/Hex5DA/dotfiles">here</a>!
+    </p>
+
+    <div id="setup-container" style="margin: 5vh auto">
+        <img class="setup" src="assets/wallpaper.png" alt="my laptop wallpaper. pink-orange clouds on a blue sky. a moon in the center. along the top of the screen, there's a pale blue status bar" />
+        <img class="setup" src="assets/nvim.png" alt="editing a nondescript rust file in neovim. the colours vaguely match the wallpaper aesthetic" />
+        <img class="setup" src="assets/neofetch.png" alt="the output of `neofetch` in the terminal, most prominently displaying the bedrock linux logo (ASCII art shaped like a gold club head)" />
+    </div>
+
+    <h2>that's it..</h2>
+    <p>thanks for reading :)</p>
+
+    <div id="fade"></div>
+    <footer>
+        <span style="float: left">made with ❤️</span>
+        <span style="float: right">this site is licensed under <a href="https://opensource.org/license/MIT/">MIT</a>!</span>
+    </footer>
+</body>
+</html>
