@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>carousel test</title>
+    <style>
+
+    :root {
+        --bg: #1c1d1d;
+        --fg: #c5c8c6;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 5vw;
+        background-color: var(--bg);
+    }
+
+    * {
+        font-family: Inter;
+        color: var(--fg);
+    }
+
+
+    .slide-img {
+        border-radius: 10px;
+        height: 30vw;
+        animation: fade 1s;
+    }
+
+    #carousel {
+        transition: .2s ease-in-out transform;
+        position: relative;
+    }
+
+    #carousel:not(:hover) {
+        transform: scale(.98);
+    }
+
+    .slide {
+        display: none;
+    }
+    
+    .controls {
+        position: absolute;
+        top: 50%;
+        height: 13%;
+        width: 5%;
+
+        margin: 0 .5vw;
+        font-size: 2.5vw;
+    }
+
+    #tracker-count {
+        color: white;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    #tracker {
+        position: absolute;
+        top: 1vw;
+        left: 1vw;
+        margin: 0;
+
+        padding: 5px;
+        font-size: 1.8vw;
+    }
+
+    .controls, #tracker, .slide-caption, .bullet {
+        transition: all .15s ease-in-out;
+        background-color: rgba(0, 0, 0, .3);
+        border-radius: 6px;
+        border: none;
+        color: white;
+    }
+
+    .controls:hover, #tracker:hover,
+    .slide-caption:hover, .bullet:hover,
+    .bullet-selected {
+        transform: scale(1.05);
+        background-color: rgba(0, 0, 0, .5);
+    }
+
+    .slide-caption {
+        padding: 5px;
+        position: absolute;
+        bottom: 0;
+        left: 1vw;
+        font-style: italic;
+    }
+
+    #bullets {
+        position: absolute;
+        top: 1vw;
+        right: 1vw;
+
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .bullet {
+        display: block;
+        height: 15px;
+        width: 15px;
+        border-radius: 40%;
+    }
+    
+    @media not (min-width: 750px) {
+        .slide-caption {
+            display: none;
+        }
+    }
+
+    @media not (min-width: 500px) {
+        #bullets {
+            display: none;
+        }
+
+    }
+    </style>
+    <script defer>
+    let curIdx = 0;
+    let curElm;
+    let curBullet;
+
+    function display() {
+        const slides = document.getElementsByClassName("slide");
+        curElm.style.display = "none";
+        curElm = slides[curIdx];
+        curElm.style.display = "block";
+
+        const tracker = document.getElementById("tracker-count");
+        tracker.innerText = curIdx + 1;
+
+        const bullets = document.getElementsByClassName("bullet");
+        curBullet.classList.remove("bullet-selected");
+        curBullet = bullets[curIdx];
+        curBullet.classList.add("bullet-selected");
+    }
+
+    function bulletHandler(bullet, idx) {
+        selectedBullet.classList.remove("bullet-selected");
+        selectedBullet = bullet;
+        bullet.classList.add("bullet-selected");
+        display(curIdx = idx);
+    }
+
+    // the `%` doesn't do wraparound on negative numbers.
+    // see: <https://stackoverflow.com/a/17323608>
+    function mod(a, b) {
+        return ((a % b) + b) % b;
+    }
+
+    window.onload = () => {
+        const slides = document.getElementsByClassName("slide");
+        const bulletsContainer = document.getElementById("bullets");
+        for (let idx = 0; idx < slides.length; idx++) {
+            const bullet = document.createElement("span");
+            bullet.onclick = () => display(curIdx = idx);
+            bullet.classList.add("bullet");
+            bulletsContainer.appendChild(bullet);
+        }
+        
+        const bullets = document.getElementsByClassName("bullet");
+        curElm = slides[curIdx];
+        curBullet = bullets[curIdx];
+        display();
+
+        const prev = document.getElementById("prev");
+        prev.onclick = () => display(curIdx = mod((curIdx - 1), slides.length));
+        const next = document.getElementById("next");
+        next.onclick = () => display(curIdx = mod((curIdx + 1), slides.length));
+    }
+    </script>
+</head>
+<body>
+    <h1>carousel</h1>
+
+    <div id="carousel">
+        <p id="tracker"><span id="tracker-count"></span> / 5</p>
+        <button class="controls" id="prev" style="left: 0">&#10094;</button>
+        <button class="controls" id="next" style="right: 0">&#10095;</button>
+
+        <div class="slide">
+            <img class="slide-img" alt="" src="./slides/slide_1.jpg" />
+            <p class="slide-caption">first slide</p>
+        </div>
+        <div class="slide">
+            <img class="slide-img" alt="" src="./slides/slide_2.jpg" />
+            <p class="slide-caption">second slide</p>
+        </div>
+        <div class="slide">
+            <img class="slide-img" alt="" src="./slides/slide_3.jpg" />
+            <p class="slide-caption">second slide</p>
+        </div>
+        <div class="slide">
+            <img class="slide-img" alt="" src="./slides/slide_4.jpg" />
+            <p class="slide-caption">second slide</p>
+        </div>
+        <div class="slide">
+            <img class="slide-img" alt="" src="./slides/slide_5.jpg" />
+            <p class="slide-caption">second slide</p>
+        </div>
+        <div id="bullets"></div>
+    </div>
+</body>
+</html>
