@@ -96,6 +96,8 @@
         bottom: 0;
         width: calc(var(--pgw) + 10vw);
         height: 15vh;
+        transition: all 1s ease;
+
         -webkit-mask-image: linear-gradient(transparent, rgba(0, 0, 0, 1));
         -webkit-backdrop-filter: blur(50px);
         mask-image: linear-gradient(transparent, rgba(0, 0, 0, 1));
@@ -134,10 +136,16 @@
         color: var(--fg); 
 
         transition: text-shadow .5s ease-in-out;
+        transition: transform .1s ease-in-out;
     }
 
     .theme-intf:hover {
         text-shadow: 0 0 5px var(--na);
+        transform: scale(0.95);
+    }
+
+    .theme-intf:active {
+        transform: scale(0.90);
     }
 
     #setup-container {
@@ -293,7 +301,7 @@
     <p>
     i recently got a <span class="text-grad">ThinkPad T1440p</span> from <a class="text-grad-underline" href="https://minifree.org">minifree</a>. i absolutely love this thing (i defintely reccomend it!)
     i've installed <span class="text-grad">bedrock linux</span> with FDE and <i>alpine linux</i> as my primary strata.
-    i use <i>spectrwm</i> as a window manager, utilising it's default bar with a short script for system readouts.
+    i use <i>spectrwm</i> as a window manager, utilising its default bar with a short script for system readouts.
     i spend most of my time in the terminal (TE: <i>URXVT</i>, SH: <i>zsh</i>), especially in <span class="text-grad">neovim</span> which i use as my primary editor. i try and keep my plugins & experience light and minimal, and though it's not perfect and i'm happy enough with it for now. my configs are all my own, with a modified neovim plugin for using my Xresources theme in the editor.
     you can find my dotfiles <a class="text-grad-underline" href="https://github.com/Hex5DA/dotfiles">here</a>!
     </p>
