@@ -27,6 +27,7 @@
         border-radius: 10px;
         height: 30vw;
         animation: fade 1s;
+        filter: blur(10px);
     }
 
     #carousel {
@@ -74,6 +75,10 @@
         border-radius: 6px;
         border: none;
         color: white;
+        /* if a filter was applied to the slide, certan UI elements would not display.
+           ordinarily, this wouldn't be a problem, but opera sometimes applies filters with
+           CSS injection behind the scenes, breaking things. anyway, this fixes it :) */
+        z-index: 100;
     }
 
     .controls:hover, #tracker:hover,
@@ -181,7 +186,7 @@
 
     <div id="carousel">
         <p id="tracker"><span id="tracker-count"></span> / 5</p>
-        <button class="controls" id="prev" style="left: 0">&#10094;</button>
+        <div class="controls" id="prev" style="left: 0">&#10094;</div>
         <button class="controls" id="next" style="right: 0">&#10095;</button>
 
         <div class="slide">
