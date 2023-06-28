@@ -27,7 +27,6 @@
         border-radius: 10px;
         height: 30vw;
         animation: fade 1s;
-        filter: blur(10px);
     }
 
     #carousel {
@@ -55,7 +54,6 @@
 
     #tracker-count {
         color: white;
-        font-style: italic;
         font-weight: bold;
     }
 
@@ -66,7 +64,7 @@
         margin: 0;
 
         padding: 5px;
-        font-size: 1.8vw;
+        font-size: 1.2vw;
     }
 
     .controls, #tracker, .slide-caption, .bullet {
@@ -186,7 +184,7 @@
 
     <div id="carousel">
         <p id="tracker"><span id="tracker-count"></span> / 5</p>
-        <div class="controls" id="prev" style="left: 0">&#10094;</div>
+        <button class="controls" id="prev" style="left: 0">&#10094;</button>
         <button class="controls" id="next" style="right: 0">&#10095;</button>
 
         <div class="slide">
