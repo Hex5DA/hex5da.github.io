@@ -52,8 +52,11 @@
         font-size: 2.5vw;
     }
 
-    #tracker-count {
+    #tracker > *, #tracker {
         color: white;
+    }
+
+    #tracker-num {
         font-weight: bold;
     }
 
@@ -135,7 +138,7 @@
         curElm = slides[curIdx];
         curElm.style.display = "block";
 
-        const tracker = document.getElementById("tracker-count");
+        const tracker = document.getElementById("tracker-num");
         tracker.innerText = curIdx + 1;
 
         const bullets = document.getElementsByClassName("bullet");
@@ -172,6 +175,9 @@
         curBullet = bullets[curIdx];
         display();
 
+        const trackerDenom = document.getElementById("tracker-denom");
+        trackerDenom.innerText = slides.length;
+
         const prev = document.getElementById("prev");
         prev.onclick = () => display(curIdx = mod((curIdx - 1), slides.length));
         const next = document.getElementById("next");
@@ -183,7 +189,7 @@
     <h1>carousel</h1>
 
     <div id="carousel">
-        <p id="tracker"><span id="tracker-count"></span> / 5</p>
+        <p id="tracker"><span id="tracker-num"></span> / <span id="tracker-denom"></span></p>
         <button class="controls" id="prev" style="left: 0">&#10094;</button>
         <button class="controls" id="next" style="right: 0">&#10095;</button>
 
