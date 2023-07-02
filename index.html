@@ -215,7 +215,16 @@
         dom.value = light ? "dark" : "light";
     }
 
+    function years_since(date) {
+        return new Date(Date.now() - date).getFullYear() - 1970;
+    }
+
     window.onload = _ => {
+        const age = document.getElementById("age");
+        age.innerText = years_since(new Date(2008, 09, /* how about no :) */ null));
+        const exp = document.getElementById("experience");
+        exp.innerText = years_since(new Date(2021, 0, 06));
+
         const toggle = document.getElementById("theme-toggle");
         const saved = localStorage.getItem("light") === "true";
         let light = false;
@@ -255,7 +264,7 @@
 
     <h2>in brief..</h2>
     <p>
-    i'm <span class="text-grad">14</span> & have been coding for about 2 1/2 years. i use rust primarily now (and will shill it under contractual obligation :P), but have worked in java & python in the past.
+    i'm <span class="text-grad" id="age"></span> & have been coding for about <span class="text-grad"><span id="experience"></span> years</span>. i use rust primarily now (and will shill it under contractual obligation :P), but have worked in java & python in the past.
     i use linux as my daily driver - currently using alpine - and spend most my time in the terminal (nvim). i don't game often, but when i do i enjoy Minecraft, Portal and Celeste.
     i like FLOSS & decentralisation, and try support them when i can. my current project is a programming language - though it's been on hold for embarrassingly long now 😅
     in the future, i'm interested in learning some C / x86_64 and graphics.
