@@ -194,4 +194,14 @@ class Carousel extends HTMLElement {
     }
 }
 
+const slidehtml = `
+`;
+
+class Slide extends HTMLElement {
+    constructor() {
+        this.attachShadow({ mode: "open" });
+        this.shadowRoot.innerHTML = slidehtml;
+    }
+}
+
 customElements.define("hex-carousel", Carousel);
